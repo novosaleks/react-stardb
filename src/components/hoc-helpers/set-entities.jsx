@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 
-const setEntities = (ComponentToView, getData) => {
+const setEntities = (ComponentToView) => {
     return class extends Component {
         state = {
             items: [],
         };
 
         componentDidMount = () => {
-            getData()
+            this.props.getData()
                 .then(items => this.setState({
                     items,
                 }));

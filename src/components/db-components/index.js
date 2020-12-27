@@ -1,3 +1,4 @@
-import {PeopleItemList, PlanetsItemList, StarshipsItemList, PersonInfo} from './db-components';
+import {PeopleItemList, PlanetItemList, StarshipsItemList} from './list-component';
+import {PersonInfo, PlanetInfo, StarshipInfo} from './item-info-components';
 
-export {PeopleItemList, PlanetsItemList, StarshipsItemList, PersonInfo};
+export {PeopleItemList, PlanetItemList, StarshipsItemList, PersonInfo, PlanetInfo, StarshipInfo};
