@@ -61,12 +61,12 @@ export default class StarAPI {
     };
 
 
-    _getIDFromURL(url) {
+    _getIDFromURL = url => {
         const regExp = /\d*(?=\/$)/;
         return url.match(regExp);
     }
 
-    _transformPlanet = (planet) => {
+    _transformPlanet = planet => {
         return {
             id: +this._getIDFromURL(planet.url),
             name: planet.name,
@@ -76,7 +76,7 @@ export default class StarAPI {
         };
     };
 
-    _transformPerson = (person) => {
+    _transformPerson = person => {
         return {
             id: +this._getIDFromURL(person.url),
             name: person.name,

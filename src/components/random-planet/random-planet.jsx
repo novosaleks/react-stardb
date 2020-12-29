@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import './random-planet.scss';
 
@@ -7,62 +7,62 @@ import StarAPI from '../../service';
 import Spinner from '../spinner';
 import ErrorNotification from '../error-notification';
 
-export default class RandomPlanet extends Component {
+const RandomPlanet = ({updateInterval}) => {
+    const swapi = new StarAPI();
 
-    swapi = new StarAPI();
+    let timer = null;
 
-    state = {
+    const [data, setData] = useState({
         planet: {},
         loading: true,
-    };
+        failed: false,
+    });
 
-    componentDidMount() {
-        this.updatePlanet();
-        this.interval = setInterval(() => this.updatePlanet(), 3500);
-    }
+    useEffect(() => {
+        updatePlanet();
+        return () => clearTimeout(timer);
+    }, []);
 
-    componentWillUnmount() {
-        clearInterval(this.interval);
-    }
-
-    onPlanetLoaded = planet => {
-        this.setState(
-            {
-                planet,
-                loading: false,
-                fail: false,
-            });
-    };
-
-    onFailLoad = () => {
-        this.setState({
+    const onPlanetLoaded = planet => {
+        timer = setTimeout(updatePlanet, updateInterval);
+        setData({
+            planet,
             loading: false,
-            fail: true,
+            fail: false,
         });
     };
 
-    updatePlanet() {
+    const onFailLoad = () => {
+        timer = setTimeout(updatePlanet, updateInterval);
+        setData(data => {
+            return {
+                ...data,
+                loading: false,
+                fail: true,
+            };
+        });
+    };
+
+    const updatePlanet = () => {
         const id = Math.round(Math.random() * 26) + 1;
 
-        this.swapi.getPlanetByID(id)
-            .then(this.onPlanetLoaded)
-            .catch(this.onFailLoad);
-    }
+        swapi.getPlanetByID(id)
+            .then(onPlanetLoaded)
+            .catch(onFailLoad);
+    };
 
-    render() {
-        const {planet, loading, fail} = this.state;
+    const {planet, loading, fail} = data;
 
-        let content = loading ? <Spinner/> :
-            fail ? <ErrorNotification/> : <PlanetContent planet={planet}/>;
+    let content = loading ? <Spinner/> :
+        fail ? <ErrorNotification/> : <PlanetContent planet={planet}/>;
 
-        return (
-            <section className="random-planet mt-5 mb-5">
-                <div className="container random-planet__container bg-dark p-3 text-center">
-                    {content}
-                </div>
-            </section>
-        );
-    }
+    return (
+        <section className="random-planet mt-5 mb-5">
+            <div className="container random-planet__container bg-dark p-3 text-center">
+                {content}
+            </div>
+        </section>
+    );
 };
 
 const PlanetContent = ({planet}) => {
@@ -86,3 +86,5 @@ const PlanetContent = ({planet}) => {
         </div>
     );
 };
+
+export default RandomPlanet;
