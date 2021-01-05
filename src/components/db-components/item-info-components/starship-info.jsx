@@ -3,13 +3,18 @@ import ItemInfo, {InfoLabel} from '../../item-info';
 import {setConsumer} from '../../hoc-helpers';
 
 const StarshipInfo = (props) => {
-    return (
+    let content =
         <ItemInfo {...props}>
             <InfoLabel title='Model' value='model'/>
             <InfoLabel title='Capacity' value='capacity'/>
             <InfoLabel title='Cost' value='cost'/>
-        </ItemInfo>
-    );
+        </ItemInfo>;
+
+    if (!props.id) {
+        content = <h2>Choose item from the list</h2>;
+    }
+
+    return content;
 };
 
 const getStarshipMethods = API => {

@@ -1,26 +1,22 @@
-import React, {Component} from 'react';
-
-import Row from '../row';
+import React from 'react';
+import {withRouter} from 'react-router-dom';
 import ErrorBoundary from '../error-boundary';
+import Row from '../row';
 import {PlanetInfo, PlanetItemList} from '../db-components';
 
-export default class PlanetPage extends Component {
-    state = {
-        selectedItemID: 3,
-    };
+const PlanetPage = ({history, match}) => {
+    const {id} = match.params;
 
-    setItemID = selectedItemID => {
-        this.setState({
-            selectedItemID,
-        });
-    };
-
-    render() {
-        return (
-            <ErrorBoundary>
-                <Row leftSide={<PlanetItemList setItemID={this.setItemID}/>}
-                     rightSide={<PlanetInfo id={this.state.selectedItemID}/>}/>
-            </ErrorBoundary>
-        );
-    };
+    return (
+        <ErrorBoundary>
+            <Row leftSide={<PlanetItemList setItemID={id => {
+                history.push(`${id}`);
+            }
+            }/>
+            }
+                 rightSide={<PlanetInfo id={id}/>}/>
+        </ErrorBoundary>
+    );
 }
+
+export default withRouter(PlanetPage);

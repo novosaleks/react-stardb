@@ -1,21 +1,15 @@
-import React, {Component} from 'react';
+import React, {useEffect, useState} from 'react';
 
 const setEntities = (ComponentToView) => {
-    return class extends Component {
-        state = {
-            items: [],
-        };
+    return (props) => {
+        const [items, setItems] = useState([]);
 
-        componentDidMount = () => {
-            this.props.getData()
-                .then(items => this.setState({
-                    items,
-                }));
-        };
+        useEffect(() => {
+            props.getData()
+                .then(items => setItems(items));
+        }, [props]);
 
-        render = () => {
-            return <ComponentToView {...this.props} itemList={this.state.items}/>;
-        };
+        return <ComponentToView {...props} itemList={items}/>;
     };
 };
 

@@ -3,13 +3,18 @@ import ItemInfo, {InfoLabel} from '../../item-info';
 import {setConsumer} from '../../hoc-helpers';
 
 const PlanetInfo = (props) => {
-    return (
+    let content =
         <ItemInfo {...props}>
             <InfoLabel title='Diameter' value='diameter'/>
             <InfoLabel title='Rotation period' value='rotationPeriod'/>
             <InfoLabel title='Population' value='population'/>
-        </ItemInfo>
-    );
+        </ItemInfo>;
+
+    if (!props.id) {
+        content = <h2>Choose item from the list</h2>;
+    }
+
+    return content;
 };
 
 const getPlanetMethods = API => {

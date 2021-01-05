@@ -16,7 +16,6 @@ export default class ItemInfo extends Component {
         item: {},
         loading: true,
         fail: false,
-        cache: [],
     };
 
     componentDidMount = () => {
@@ -29,21 +28,13 @@ export default class ItemInfo extends Component {
         }
     };
 
-    updateItem = (item, needCache) => {
-        this.setState(state => {
-            const cache = [...state.cache];
-
-            if (needCache) {
-                cache.push(item);
-            }
-
-            return {
+    updateItem = (item) => {
+        this.setState({
                 item,
                 loading: false,
                 fail: false,
-                cache,
-            };
-        });
+            }
+        );
     };
 
     getItem = () => {
@@ -53,13 +44,6 @@ export default class ItemInfo extends Component {
             return;
         }
 
-        for (let value of this.state.cache) {
-            if (value.id === id) {
-                this.updateItem(value, false);
-                return;
-            }
-        }
-
         this.setState({
             loading: true,
             fail: false,
@@ -67,7 +51,7 @@ export default class ItemInfo extends Component {
 
 
         this.props.getItem(id)
-            .then(item => this.updateItem(item, true))
+            .then(item => this.updateItem(item))
             .catch(() => this.setState({
                     loading: false,
                     fail: true,

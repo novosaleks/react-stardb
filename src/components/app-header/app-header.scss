@@ -3,6 +3,10 @@
 
     &__logo {
         font-size: 2.5rem;
+
+        a {
+            color: #fff;
+        }
     }
 
     &__links {
@@ -14,5 +18,9 @@
             font-weight: 700;
             font-size: 1.3rem;
         }
+    }
+
+    a:hover {
+        text-decoration: none;
     }
 }

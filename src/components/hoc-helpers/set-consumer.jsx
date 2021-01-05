@@ -1,20 +1,13 @@
-import React from 'react';
-import {Consumer} from '../api-context';
+import React, {useContext} from 'react';
+import Context from '../api-context';
 
 const setConsumer = (InitialComponent, extractFromAPI) => {
+
     return props => {
-        return (
-            <Consumer>
-                {
-                    starAPI => {
-                        const getData = extractFromAPI(starAPI);
-                        return (
-                            <InitialComponent {...props} {...getData}/>
-                        );
-                    }
-                }
-            </Consumer>
-        );
+        const starAPI = useContext(Context);
+        const getData = extractFromAPI(starAPI);
+
+        return <InitialComponent {...props} {...getData}/>;
     };
 };
 

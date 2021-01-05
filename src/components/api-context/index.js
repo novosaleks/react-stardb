@@ -1,3 +1,3 @@
-import {Consumer, Provider} from './api-context';
+import Context from './api-context';
 
-export {Provider, Consumer};
+export default Context;
